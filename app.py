@@ -20,7 +20,7 @@ from pymongo import MongoClient
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # For flash messages
+app.secret_key = 'M@keskilled0'  # For flash messages
 
 # MongoDB connection
 client = MongoClient("mongodb+srv://krishnareddy:1234567890@diploma.1v5g6.mongodb.net/")
