@@ -1,0 +1,45 @@
+Here's the updated systemd service file for the root user, assuming your virtual environment is located in /root/venv and the Flask application is in /root/my_flask_app:
+
+ini
+Copy code
+[Unit]
+Description=Flask Application
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root/my_flask_app
+ExecStart=/root/venv/bin/gunicorn -w 4 -b 0.0.0.0:5000 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+Steps to Use the Updated Service File:
+Save the Service File:
+
+bash
+Copy code
+sudo nano /etc/systemd/system/flask_app.service
+Paste the above content and save the file.
+
+Reload systemd to Register the Service:
+
+bash
+Copy code
+sudo systemctl daemon-reload
+Start the Flask Application Service:
+
+bash
+Copy code
+sudo systemctl start flask_app
+Enable the Service to Start on Boot:
+
+bash
+Copy code
+sudo systemctl enable flask_app
+Check the Service Status:
+
+bash
+Copy code
+sudo systemctl status flask_app
