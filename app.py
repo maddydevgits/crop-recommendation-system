@@ -1,6 +1,6 @@
 # Importing essential libraries and modules
 
-from flask import Flask, render_template, request,redirect,url_for,flash
+from flask import Flask, render_template, request,redirect,url_for,flash,session
 from markupsafe import Markup
 import numpy as np
 import pandas as pd
@@ -287,12 +287,10 @@ def register():
         role = request.form.get('role')
 
         if not name or not email or not password or not role:
-            flash('All fields are required!', 'danger')
             return redirect(url_for('register'))
         
         existing_user = users_collection.find_one({"email": email})
         if existing_user:
-            flash('Email already exists!', 'danger')
             return redirect(url_for('register'))
 
         hashed_password = hash_password(password)
@@ -304,13 +302,9 @@ def register():
         }
 
         users_collection.insert_one(new_user)
-        flash('Registration successful!', 'success')
         return redirect(url_for('login'))
 
     return render_template('register.html')  # Render the registration form
-
-# Login route
-from flask import session
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
