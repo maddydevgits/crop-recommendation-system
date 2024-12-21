@@ -26,6 +26,7 @@ app.secret_key = 'M@keskilled0'  # For flash messages
 client = MongoClient("mongodb+srv://krishnareddy:1234567890@diploma.1v5g6.mongodb.net/")
 db = client['farmconnect']
 users_collection = db['users']
+products_collection = db['products']
 
 # Helper function to handle password hashing
 def hash_password(password):
@@ -379,13 +380,16 @@ def add_product():
     }
 
     # Insert the data into the 'products' collection
-    products_collection = db['products']
     products_collection.insert_one(new_product)
 
     # Flash a success message and redirect to a confirmation page
     flash('Product added successfully!', 'success')
     return redirect(url_for('index'))
 
+@app.route('/products')
+def display_products():
+    products = list(products_collection.find())
+    return render_template('products.html', products=products)
 
 
 # ===============================================================================================
